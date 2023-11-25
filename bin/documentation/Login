@@ -1,0 +1,149 @@
+package data;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
+public class Login extends JFrame {
+	private static final long serialVersionUID = 1L;
+	private JPasswordField passwordField;
+	private JFormattedTextField frmtdtxtfldUsername;
+	public Connect connect = new Connect();
+
+	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			new Login();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void exitLogin() {
+		this.setVisible(false);
+	}
+
+	public Login() {
+
+		Image iconLogin = new ImageIcon(this.getClass().getResource("/image/H.png")).getImage();
+		this.setIconImage(iconLogin);
+		this.setSize(741, 320);
+		this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		getContentPane().setBackground(Color.GRAY);
+		getContentPane().setLayout(null);
+
+		passwordField = new JPasswordField();
+		passwordField.setHorizontalAlignment(SwingConstants.LEFT);
+		passwordField.setColumns(10);
+		passwordField.setFont(new Font("Arial", Font.BOLD, 15));
+		passwordField.setBounds(97, 143, 251, 31);
+		getContentPane().add(passwordField);
+
+		JLabel lblNewLabel = new JLabel("Username : ");
+		lblNewLabel.setBackground(new Color(0, 0, 153));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setBounds(16, 87, 82, 29);
+		getContentPane().add(lblNewLabel);
+
+		JLabel lblPassword = new JLabel("Password : ");
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblPassword.setBounds(16, 143, 82, 29);
+		getContentPane().add(lblPassword);
+
+		JLabel lblNewLabel_1 = new JLabel("LOGIN");
+		lblNewLabel_1.setBackground(new Color(0, 0, 255));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 40));
+		lblNewLabel_1.setBounds(132, 11, 159, 45);
+		getContentPane().add(lblNewLabel_1);
+
+		frmtdtxtfldUsername = new JFormattedTextField();
+		frmtdtxtfldUsername.setHorizontalAlignment(SwingConstants.LEFT);
+		frmtdtxtfldUsername.setColumns(10);
+		frmtdtxtfldUsername.setFont(new Font("Arial", Font.PLAIN, 13));
+		frmtdtxtfldUsername.setBackground(new Color(255, 255, 255));
+		frmtdtxtfldUsername.setBounds(97, 88, 251, 31);
+		getContentPane().add(frmtdtxtfldUsername);
+
+		JLabel lblNewLabel_2 = new JLabel();
+		lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/image/photo2.jpg")));
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_2.setBounds(366, 0, 358, 281);
+		getContentPane().add(lblNewLabel_2);
+
+		JButton btnNewButton = new JButton("LOG IN", new ImageIcon(this.getClass().getResource("/image/A.png")));
+		btnNewButton.setBackground(new Color(128, 255, 255));
+		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnNewButton.setBounds(97, 200, 251, 40);
+		btnNewButton.addActionListener(new ActionListener() {
+
+			@SuppressWarnings("deprecation")
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (frmtdtxtfldUsername.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Chưa nhập Tài khoản!", "Empty", JOptionPane.WARNING_MESSAGE);
+				} else if (passwordField.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Chưa nhập Mật khẩu!", "Empty", JOptionPane.WARNING_MESSAGE);
+				} else {
+					try {
+						Connection connection = connect.getConnection();
+						String sql = "Select * From QUAN_TRI Where Ma_Admin=? And Password=?";
+						PreparedStatement preparedStatement = connection.prepareStatement(sql);
+						preparedStatement.setString(1, frmtdtxtfldUsername.getText());
+						preparedStatement.setString(2, passwordField.getText());
+						ResultSet resultSet = preparedStatement.executeQuery();
+						if (resultSet.next()) {
+							try {
+								UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+								GDadmin gd = new GDadmin("Libray Manangement");
+								gd.setVisible(true);
+								exitLogin();
+							} catch (Exception e1) {
+								System.out.println(e1.getMessage());
+							}
+						}
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
+				}
+			}
+		});
+		getContentPane().add(btnNewButton);
+
+		JButton btnNewButton_1 = new JButton("X");
+		btnNewButton_1.setBackground(new Color(128, 128, 128));
+		btnNewButton_1.setForeground(new Color(255, 0, 0));
+		btnNewButton_1.setFont(new Font("Dialog", Font.BOLD, 10));
+		btnNewButton_1.setBounds(0, 261, 41, 20);
+		btnNewButton_1.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+
+			}
+		});
+		getContentPane().add(btnNewButton_1);
+
+		this.setVisible(true);
+
+	}
+}

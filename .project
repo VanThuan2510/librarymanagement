@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>LibraryManagement</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>src/image/photo2.jpg</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/JAVA/Java%20Code%20Source/Image%20for%20App/photo2.jpg</locationURI>
+		</link>
+		<link>
+			<name>src/image/searchicon.png</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/JAVA/Java%20Code%20Source/Image%20for%20App/searchicon.png</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>
